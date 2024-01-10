@@ -41,7 +41,7 @@ from engine_finetune import train_one_epoch, evaluate
 def get_args_parser():
     parser = argparse.ArgumentParser('MAE linear probing for image classification', add_help=False)
     # Basic parameters
-    parser.add_argument('--lower_bnd', type=int, default=0, metavar='N',
+    parser.add_argument('--lower_bnd', type=int, default=0, metavar='N',         # what do they do?                                    # what exactly is the "lower" and "upper bound"?
                         help='lower_bnd')
     parser.add_argument('--upper_bnd', type=int, default=0, metavar='N',
                         help='upper_bnd')
@@ -53,8 +53,8 @@ def get_args_parser():
                         help='Accumulate gradient iterations (for increasing the effective batch size under memory constraints)')
 
     # Model parameters
-    parser.add_argument('--model', default='vit_base_patch224', type=str, metavar='MODEL',
-                        help='Name of model to train')
+    parser.add_argument('--model', default='mae_vit_pluto_patchX', type=str, metavar='MODEL',                          # changed from "vit_base_patch224" to "mae_vit_pluto_patchX":
+                        help='Name of model to train')                                                                 # is that correct? 
     
     parser.add_argument('--input_channels', type=int, default=5, metavar='N',
                         help='input channels')

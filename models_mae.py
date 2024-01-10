@@ -106,7 +106,7 @@ class MaskedAutoencoderViT(nn.Module):
         h = imgs.shape[2] // p
         w = imgs.shape[3] // q
         x = imgs.reshape(shape=(imgs.shape[0], imgs.shape[1], h, p, w, q))
-        x = torch.einsum('nchpwq->nhwpqc', x)
+        x = torch.einsum('nchpwq->nhwpqc', x) #summation according to einstein index convention
         x = x.reshape(shape=(imgs.shape[0], h * w, p * q * imgs.shape[1]))
         return x
 
@@ -286,7 +286,7 @@ class MaskedAutoencoderViT(nn.Module):
         return loss, imgs_hat, imgs_hat_masked
 
 
-def mae_vit_pluto_patchX_dec192d2b(**kwargs): # nb_params: 1.61M encoder, 0.37M decoder
+def mae_vit_pluto_patchX_dec192d2b(**kwargs): # nb_params: 1.61M encoder, 0.37M decoder             # ad wants to use this! 
     model = MaskedAutoencoderViT(
         embed_dim=256, depth=2, num_heads=8, # dim=32 per head
         decoder_embed_dim=160, decoder_depth=1, decoder_num_heads=8, # dim=20 per head
@@ -300,7 +300,7 @@ def mae_vit_tiny_patchX_dec256d2b(**kwargs): # nb_params: 5.36M encoder, 1.7M de
         mlp_ratio=4, norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
     return model
 
-def mae_vit_tinyDeep_patchX_dec256d2b(**kwargs): # nb_params: 21.34M encoder, 1.8M decoder
+def mae_vit_tinyDeep_patchX_dec256d2b(**kwargs): # nb_params: 21.34M encoder, 1.8M decoder          # or ad wants to use this - maybe as second try. Having a deep network sounds better. 
     model = MaskedAutoencoderViT(
         embed_dim=192, depth=12, num_heads=3, # dim=96 per head
         decoder_embed_dim=256, decoder_depth=2, decoder_num_heads=8, # dim=32 per head
@@ -352,7 +352,7 @@ def mae_vit_huge_patchX_dec512d8b(**kwargs): # 632M params in total
 
 
 # set recommended archs
-mae_vit_pluto_patchX = mae_vit_pluto_patchX_dec192d2b  # decoder: 256 dim, 2 blocks
+mae_vit_pluto_patchX = mae_vit_pluto_patchX_dec192d2b  # decoder: 256 dim, 2 blocks                         # ad will start with that 
 mae_vit_tiny_patchX = mae_vit_tiny_patchX_dec256d2b  # decoder: 256 dim, 2 blocks
 mae_vit_tinyDeep_patchX = mae_vit_tinyDeep_patchX_dec256d2b  # decoder: 256 dim, 2 blocks
 mae_vit_small_patchX = mae_vit_small_patchX_dec256d2b  # decoder: 384 dim, 4 blocks

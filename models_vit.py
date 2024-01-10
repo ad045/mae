@@ -55,7 +55,7 @@ class VisionTransformer(timm.models.vision_transformer.VisionTransformer):
         def my_forward(x):
             B, N, C = x.shape # C = embed_dim
             # (3, B, Heads, N, head_dim)
-            qkv = attn_obj.qkv(x).reshape(B, N, 3, attn_obj.num_heads, C // attn_obj.num_heads).permute(2, 0, 3, 1, 4)
+            qkv = attn_obj.qkv(x).reshape(B, N, 3, attn_obj.num_heads, C // attn_obj.num_heads).permute(2, 0, 3, 1, 4)                  # ad has no understanding of that... 
             q, k, v = qkv.unbind(0)   # make torchscript happy (cannot use tensor as tuple)
 
             # (B, Heads, N, N)
@@ -102,7 +102,7 @@ class VisionTransformer(timm.models.vision_transformer.VisionTransformer):
 
     def random_masking_blockwise(self, x, mask_c_ratio, mask_t_ratio):
         """
-        2D: ECG recording (N, 1, C, T) (masking c and t under mask_c_ratio and mask_t_ratio)
+        2D: ECG recording (N, 1, C, T) (masking c and t under mask_c_ratio and mask_t_ratio)                        # and eeg data should work identically to ecg data? 
         Perform per-sample random masking by per-sample shuffling.
         Per-sample shuffling is done by argsort random noise.
         x: [N, L, D], sequence
@@ -180,7 +180,7 @@ class VisionTransformer(timm.models.vision_transformer.VisionTransformer):
         return x if pre_logits else self.head(x)
 
 
-def vit_pluto_patchX(**kwargs):
+def vit_pluto_patchX(**kwargs):                                                             # and so this vit models are used to implement the mae? 
     model = VisionTransformer(
         embed_dim=256, depth=2, num_heads=8, mlp_ratio=4, qkv_bias=True,
         norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)

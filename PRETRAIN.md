@@ -7,7 +7,7 @@ python submitit_pretrain.py \
     --nodes 8 \
     --use_volta32 \
     --batch_size 64 \
-    --model mae_vit_large_patch16 \
+    --model mae_vit_large_patch16 \/u/home/dena/Documents/mae/envs
     --norm_pix_loss \
     --mask_ratio 0.75 \
     --epochs 800 \
